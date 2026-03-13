@@ -1,4 +1,4 @@
-export const currentTourneyId = "033";
+export const currentTourneyId = "011";
 
 export const tourneyOptions = [
     { id: "004", name: "Farmers" },
