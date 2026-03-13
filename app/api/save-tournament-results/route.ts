@@ -7,7 +7,7 @@ import { NextResponse } from 'next/server';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { tourneyId, year = '2025', playerPicksData, winnersData } = body;
+    const { tourneyId, year = '2026', playerPicksData, winnersData } = body;
 
     if (!tourneyId || !playerPicksData || !winnersData) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });

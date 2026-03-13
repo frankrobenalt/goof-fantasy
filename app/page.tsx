@@ -119,7 +119,7 @@ export default function Home() {
         {tab === 'season' && (
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl overflow-hidden">
             <div className="px-4 py-3 border-b border-zinc-800">
-              <h2 className="text-sm font-semibold text-zinc-300">Season Standings — 2025</h2>
+              <h2 className="text-sm font-semibold text-zinc-300">Season Standings — 2026</h2>
             </div>
             {seasonLoading ? (
               <div className="text-zinc-500 py-16 text-center">Loading...</div>

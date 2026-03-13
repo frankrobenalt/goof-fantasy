@@ -76,7 +76,7 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
         const tourneyIdToGet = body?.tourneyId || currentTourneyId;
-        const currentYear = '2025';
+        const currentYear = '2026';
         const tourneyId = `${tourneyIdToGet}-${currentYear}`;
 
         const [picksSql, usersSql, tourneyDataResponse] = await Promise.all([
