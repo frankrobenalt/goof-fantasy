@@ -7,7 +7,7 @@ const TOURNAMENT_ID = '011';
 const YEAR = '2026';
 
 const teamPicks = [
-  { name: 'Happy',  username: 'happy',  picks: ['Scheffler', 'Schauffele', 'Fowler', 'McNealy', 'Spaun'] },
+  { name: 'Jacob',  username: 'jacob',  picks: ['Scheffler', 'Schauffele', 'Fowler', 'McNealy', 'Spaun'] },
   { name: 'Travis', username: 'travis', picks: ['McIlroy', 'Cameron Young', 'Matsuyama', 'Spieth', 'Lowry'] },
   { name: 'Frank',  username: 'frank',  picks: ['Aberg', 'Min Woo Lee', 'Berger', 'Koepka', 'Scott'] },
   { name: 'Harry',  username: 'harry',  picks: ['Morikawa', 'Henley', 'Fitzpatrick', 'Straka', 'Gerard'] },
