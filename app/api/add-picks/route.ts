@@ -65,8 +65,8 @@ export async function GET() {
     const unmatched: string[] = [];
 
     for (const team of teamPicks) {
-      // Get or create user
-      const existing = await sql`SELECT user_id FROM users WHERE LOWER(username) = LOWER(${team.username});`;
+      // Get or create user — match on first name
+      const existing = await sql`SELECT user_id FROM users WHERE LOWER(name) LIKE LOWER(${team.name + '%'});`;
       let userId: number;
 
       if (existing.rows.length > 0) {
