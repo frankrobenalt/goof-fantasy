@@ -36,10 +36,11 @@ export default function SeasonStandings({ standings }: { standings: SeasonStandi
         </thead>
         <tbody>
           {standings.map((standing, i) => {
-            const isFirst = i === 0;
+            const rank = standings.findIndex(s => s.total_points === standing.total_points) + 1;
+            const isFirst = rank === 1;
             return (
               <tr key={standing.user_id} className={`border-b border-zinc-800/50 ${isFirst ? 'bg-amber-500/5' : ''}`}>
-                <td className="px-4 py-3 text-zinc-500">{i + 1}</td>
+                <td className="px-4 py-3 text-zinc-500">{rank}</td>
                 <td className="px-4 py-3">
                   <span className={`font-semibold ${isFirst ? 'text-amber-400' : 'text-white'}`}>
                     {isFirst && '🏆 '}{standing.name}
