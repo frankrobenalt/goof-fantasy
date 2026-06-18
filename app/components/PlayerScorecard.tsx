@@ -5,10 +5,11 @@ import { formatScore, getScoreColor, getScoreColorFromNum } from '../utils';
 interface Props {
   player: PlayerData;
   winnersData: WinnersData;
+  multiplier?: number;
 }
 
-export default function PlayerScorecard({ player, winnersData }: Props) {
-  const pointsEarned = calcPoints(player, winnersData);
+export default function PlayerScorecard({ player, winnersData, multiplier = 1 }: Props) {
+  const pointsEarned = calcPoints(player, winnersData, multiplier);
 
   // Identify top 3 picks (excluding cuts) for highlight
   const activePicks = player.picks
@@ -97,13 +98,13 @@ export default function PlayerScorecard({ player, winnersData }: Props) {
   );
 }
 
-function calcPoints(player: PlayerData, w: WinnersData): number {
+function calcPoints(player: PlayerData, w: WinnersData, multiplier: number): number {
   let pts = 0;
-  if (w.roundOneLow?.[0]?.user_id   === player.user_id) pts += 1;
-  if (w.roundTwoLow?.[0]?.user_id   === player.user_id) pts += 1;
-  if (w.roundThreeLow?.[0]?.user_id === player.user_id) pts += 1;
-  if (w.roundFourLow?.[0]?.user_id  === player.user_id) pts += 1;
-  if (w.topThree?.user_id           === player.user_id) pts += 2;
-  if (w.pickedWinner?.user_id       === player.user_id) pts += 2;
+  if (w.roundOneLow?.[0]?.user_id   === player.user_id) pts += 1 * multiplier;
+  if (w.roundTwoLow?.[0]?.user_id   === player.user_id) pts += 1 * multiplier;
+  if (w.roundThreeLow?.[0]?.user_id === player.user_id) pts += 1 * multiplier;
+  if (w.roundFourLow?.[0]?.user_id  === player.user_id) pts += 1 * multiplier;
+  if (w.topThree?.user_id           === player.user_id) pts += 2 * multiplier;
+  if (w.pickedWinner?.user_id       === player.user_id) pts += 2 * multiplier;
   return pts;
 }

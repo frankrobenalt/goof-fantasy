@@ -10,14 +10,14 @@ interface PointCardDef {
   data: LowPickEntry[] | PlayerData | (PlayerData & { winner: any }) | null;
 }
 
-export default function PointsBoard({ winnersData }: { winnersData: WinnersData }) {
+export default function PointsBoard({ winnersData, multiplier = 1 }: { winnersData: WinnersData; multiplier?: number }) {
   const cards: PointCardDef[] = [
-    { label: 'Round 1', points: 1, type: 'round', roundKey: 'round1Score', data: winnersData.roundOneLow },
-    { label: 'Round 2', points: 1, type: 'round', roundKey: 'round2Score', data: winnersData.roundTwoLow },
-    { label: 'Round 3', points: 1, type: 'round', roundKey: 'round3Score', data: winnersData.roundThreeLow },
-    { label: 'Round 4', points: 1, type: 'round', roundKey: 'round4Score', data: winnersData.roundFourLow },
-    { label: 'Best 3',        points: 2, type: 'top3',       data: winnersData.topThree },
-    { label: 'Picked Winner', points: 2, type: 'tournament', data: winnersData.pickedWinner },
+    { label: 'Round 1', points: 1 * multiplier, type: 'round', roundKey: 'round1Score', data: winnersData.roundOneLow },
+    { label: 'Round 2', points: 1 * multiplier, type: 'round', roundKey: 'round2Score', data: winnersData.roundTwoLow },
+    { label: 'Round 3', points: 1 * multiplier, type: 'round', roundKey: 'round3Score', data: winnersData.roundThreeLow },
+    { label: 'Round 4', points: 1 * multiplier, type: 'round', roundKey: 'round4Score', data: winnersData.roundFourLow },
+    { label: 'Best 3',        points: 2 * multiplier, type: 'top3',       data: winnersData.topThree },
+    { label: 'Picked Winner', points: 2 * multiplier, type: 'tournament', data: winnersData.pickedWinner },
   ];
 
   return (

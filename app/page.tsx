@@ -1,7 +1,7 @@
 'use client';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { currentTourneyId, tourneyOptions } from './constants';
+import { currentTourneyId, tourneyOptions, MAJOR_IDS } from './constants';
 import { PlayerData, WinnersData, SeasonStanding } from './types';
 import PointsBoard from './components/PointsBoard';
 import PlayerScorecard from './components/PlayerScorecard';
@@ -44,6 +44,7 @@ export default function Home() {
   }, [tab]);
 
   const currentTourneyName = tourneyOptions.find(t => t.id === tourneyId)?.name ?? tourneyId;
+  const pointsMultiplier = MAJOR_IDS.has(tourneyId) ? 2 : 1;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
@@ -101,13 +102,14 @@ export default function Home() {
               <div className="text-zinc-500 py-16 text-center">Loading...</div>
             ) : (
               <>
-                <PointsBoard winnersData={winnersData} />
+                <PointsBoard winnersData={winnersData} multiplier={pointsMultiplier} />
                 <div className="space-y-4">
                   {playerPicks.map(player => (
                     <PlayerScorecard
                       key={player.user_id}
                       player={player}
                       winnersData={winnersData}
+                      multiplier={pointsMultiplier}
                     />
                   ))}
                 </div>
