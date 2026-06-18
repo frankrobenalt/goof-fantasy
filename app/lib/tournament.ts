@@ -169,20 +169,23 @@ export function buildWinnersData(playerPicksData, tourneyData) {
   };
 }
 
+const MAJOR_IDS = new Set(['014', '033', '026', '100']);
+
 export async function saveResults(tourneyId: string, year: string, playerPicksData: any[], winnersData: any) {
   const tournament = `${tourneyId}-${year}`;
+  const multiplier = MAJOR_IDS.has(tourneyId) ? 2 : 1;
   const points: Record<number, { r1: number; r2: number; r3: number; r4: number; top3: number; winner: number }> = {};
 
   playerPicksData.forEach(p => {
     points[p.user_id] = { r1: 0, r2: 0, r3: 0, r4: 0, top3: 0, winner: 0 };
   });
 
-  if (winnersData.roundOneLow?.[0])   points[winnersData.roundOneLow[0].user_id].r1    = 1;
-  if (winnersData.roundTwoLow?.[0])   points[winnersData.roundTwoLow[0].user_id].r2    = 1;
-  if (winnersData.roundThreeLow?.[0]) points[winnersData.roundThreeLow[0].user_id].r3  = 1;
-  if (winnersData.roundFourLow?.[0])  points[winnersData.roundFourLow[0].user_id].r4   = 1;
-  if (winnersData.topThree)           points[winnersData.topThree.user_id].top3         = 2;
-  if (winnersData.pickedWinner)       points[winnersData.pickedWinner.user_id].winner   = 2;
+  if (winnersData.roundOneLow?.[0])   points[winnersData.roundOneLow[0].user_id].r1    = 1 * multiplier;
+  if (winnersData.roundTwoLow?.[0])   points[winnersData.roundTwoLow[0].user_id].r2    = 1 * multiplier;
+  if (winnersData.roundThreeLow?.[0]) points[winnersData.roundThreeLow[0].user_id].r3  = 1 * multiplier;
+  if (winnersData.roundFourLow?.[0])  points[winnersData.roundFourLow[0].user_id].r4   = 1 * multiplier;
+  if (winnersData.topThree)           points[winnersData.topThree.user_id].top3         = 2 * multiplier;
+  if (winnersData.pickedWinner)       points[winnersData.pickedWinner.user_id].winner   = 2 * multiplier;
 
   for (const [userId, p] of Object.entries(points)) {
     await sql`
