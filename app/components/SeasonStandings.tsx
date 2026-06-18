@@ -1,6 +1,6 @@
 'use client';
 import { SeasonStanding } from '../types';
-import { tourneyOptions } from '../constants';
+import { tourneyOptions, MAJOR_IDS } from '../constants';
 
 const tourneyName = (id: string) => {
   const [tid] = id.split('-');
@@ -30,9 +30,15 @@ export default function SeasonStandings({ standings }: { standings: SeasonStandi
             <th className="text-left px-4 py-3 font-medium">Player</th>
             <th className="px-4 py-3 font-medium text-amber-400">Total</th>
             <th className="px-4 py-3 font-medium text-green-400">Money</th>
-            {allTourneys.map(t => (
-              <th key={t} className="px-3 py-3 font-medium text-zinc-500">{tourneyName(t)}</th>
-            ))}
+            {allTourneys.map(t => {
+              const isMajor = MAJOR_IDS.includes(t.split('-')[0]);
+              return (
+                <th key={t} className={`px-3 py-3 font-medium ${isMajor ? 'text-amber-400 border-b-2 border-amber-500' : 'text-zinc-500'}`}>
+                  {tourneyName(t)}
+                  {isMajor && <span className="ml-1 text-xs font-bold text-amber-500">2x</span>}
+                </th>
+              );
+            })}
           </tr>
         </thead>
         <tbody>
