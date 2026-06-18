@@ -3,16 +3,12 @@ import { sql } from '@vercel/postgres';
 import axios from 'axios';
 import { NextResponse } from 'next/server';
 
-const TOURNAMENT_ID = '026';
+const TOURNAMENT_ID = '009';
 const YEAR = '2026';
 
 const teamPicks = [
-  { name: 'Harry',  username: 'harry',  picks: ['Scottie Scheffler', 'Russell Henley', 'Wyndham Clark', 'J.J. Spaun', 'Gerard'] },
-  { name: 'Nick',   username: 'nick',   picks: ['Rory McIlroy', 'Justin Thomas', 'Si Woo Kim', 'Viktor Hovland', 'Knapp'] },
-  { name: 'Garret', username: 'garret', picks: ['Cameron Young', 'Brooks Koepka', 'Chris Gotterup', 'Aaron Rai', 'Cameron Smith'] },
-  { name: 'Jacob',  username: 'jacob',  picks: ['Tommy Fleetwood', 'Sam Burns', 'Bryson DeChambeau', 'Collin Morikawa', 'Hideki Matsuyama'] },
-  { name: 'Travis', username: 'travis', picks: ['Ludvig Åberg', 'Xander Schauffele', 'Maverick McNealy', 'Justin Rose', 'Adam Scott'] },
-  { name: 'Frank',  username: 'frank',  picks: ['Jon Rahm', 'Matt Fitzpatrick', 'Tyrell Hatton', 'Patrick Reed', 'Bud Cauley'] },
+  { name: 'Frank',  username: 'frank',  picks: ['Rory McIlroy', 'Knapp', 'Kurt Kitayama', 'Rickie Fowler', 'Ludvig Åberg', 'J.J. Spaun'] },
+  { name: 'Jacob',  username: 'jacob',  picks: ['Collin Morikawa', 'Xander Schauffele', 'Viktor Hovland', 'Harris English', 'Keita Hisatsune', 'Maverick McNealy'] },
 ];
 
 const normalize = (s: string) =>
