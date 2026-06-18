@@ -44,7 +44,7 @@ export default function Home() {
   }, [tab]);
 
   const currentTourneyName = tourneyOptions.find(t => t.id === tourneyId)?.name ?? tourneyId;
-  const pointsMultiplier = MAJOR_IDS.has(tourneyId) ? 2 : 1;
+  const pointsMultiplier = MAJOR_IDS.includes(tourneyId) ? 2 : 1;
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white">
@@ -54,7 +54,12 @@ export default function Home() {
           <div>
             <h1 className="text-xl font-bold tracking-tight">Goof Fantasy Golf</h1>
             {tab === 'week' && (
-              <p className="text-zinc-500 text-sm mt-0.5">{currentTourneyName}</p>
+              <p className="text-zinc-500 text-sm mt-0.5">
+                {currentTourneyName}
+                {pointsMultiplier === 2 && (
+                  <span className="ml-2 text-xs font-bold text-amber-400 bg-amber-400/10 border border-amber-400/30 px-1.5 py-0.5 rounded">2x MAJOR</span>
+                )}
+              </p>
             )}
           </div>
           {tab === 'week' && (

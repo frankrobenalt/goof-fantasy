@@ -23,6 +23,8 @@ export interface PlayerData {
   lowRoundThreeScore: number | string;
   lowRoundFourScore: number | string;
   topThree: number | string;
+  fourthPickScore: number | string;
+  fifthPickScore: number | string;
 }
 
 export interface LowPickEntry {
@@ -37,7 +39,7 @@ export interface WinnersData {
   roundTwoLow: LowPickEntry[] | null;
   roundThreeLow: LowPickEntry[] | null;
   roundFourLow: LowPickEntry[] | null;
-  topThree: PlayerData | null;
+  topThree: PlayerData[] | null;
   pickedWinner: (PlayerData & { winner: { firstName: string; lastName: string; playerId: string } }) | null;
 }
 

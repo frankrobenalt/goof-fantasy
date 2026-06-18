@@ -1,6 +1,6 @@
 export const currentTourneyId = "026";
 
-export const MAJOR_IDS = new Set(['014', '033', '026', '100']);
+export const MAJOR_IDS = ['014', '033', '026', '100', '011'];
 
 export const tourneyOptions = [
     { id: "026", name: "U.S. Open" },

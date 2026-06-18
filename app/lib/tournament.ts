@@ -136,8 +136,34 @@ export function buildPlayerPicksData(users, picks, playerData) {
       lowRoundThreeScore: lowR3 === 200 ? '-' : lowR3,
       lowRoundFourScore: lowR4 === 200 ? '-' : lowR4,
       topThree,
+      fourthPickScore: sorted.length > 3 ? sorted[3].totalConvertedForMath : '-',
+      fifthPickScore: sorted.length > 4 ? sorted[4].totalConvertedForMath : '-',
     };
   });
+}
+
+function pickScore(p, key) {
+  const v = p[key];
+  return typeof v === 'number' ? v : 1000;
+}
+
+function resolveTopThree(candidates) {
+  if (!candidates.length) return null;
+
+  const best = Math.min(...candidates.map(p => p.topThree));
+  let tied = candidates.filter(p => p.topThree === best);
+  if (tied.length === 1) return tied;
+
+  const best4 = Math.min(...tied.map(p => pickScore(p, 'fourthPickScore')));
+  tied = tied.filter(p => pickScore(p, 'fourthPickScore') === best4);
+  if (tied.length === 1) return tied;
+
+  const best5 = Math.min(...tied.map(p => pickScore(p, 'fifthPickScore')));
+  tied = tied.filter(p => pickScore(p, 'fifthPickScore') === best5);
+  if (tied.length === 1) return tied;
+
+  if (tied.length === 2) return tied; // split
+  return null; // 3+ still tied → void
 }
 
 export function buildWinnersData(playerPicksData, tourneyData) {
@@ -152,10 +178,8 @@ export function buildWinnersData(playerPicksData, tourneyData) {
   const roundFourLow  = (currentRound === 4 && roundStatus === 'In Progress') ? null : calculateLowRound(playerPicksData, 'round4Score');
 
   const qualifiesForTopThree = playerPicksData.filter(p => p.topThree !== '-');
-  const topThreeLow = isComplete
-    ? qualifiesForTopThree.sort((a, b) => a.topThree - b.topThree)[0] ?? null
-    : null;
-  const pickedWinner = isComplete
+  const topThreeLow = isComplete ? resolveTopThree(qualifiesForTopThree) : null;
+  const pickedWinnerPlayer = isComplete
     ? playerPicksData.find(p => p.picks.some(pick => pick.playerId === firstPlacePlayer?.playerId)) ?? null
     : null;
 
@@ -165,11 +189,11 @@ export function buildWinnersData(playerPicksData, tourneyData) {
     roundThreeLow,
     roundFourLow,
     topThree: topThreeLow,
-    pickedWinner: pickedWinner ? { ...pickedWinner, winner: firstPlacePlayer } : null,
+    pickedWinner: pickedWinnerPlayer ? { ...pickedWinnerPlayer, winner: firstPlacePlayer } : null,
   };
 }
 
-const MAJOR_IDS = new Set(['014', '033', '026', '100']);
+const MAJOR_IDS = new Set(['014', '033', '026', '100', '011']);
 
 export async function saveResults(tourneyId: string, year: string, playerPicksData: any[], winnersData: any) {
   const tournament = `${tourneyId}-${year}`;
@@ -184,7 +208,10 @@ export async function saveResults(tourneyId: string, year: string, playerPicksDa
   if (winnersData.roundTwoLow?.[0])   points[winnersData.roundTwoLow[0].user_id].r2    = 1 * multiplier;
   if (winnersData.roundThreeLow?.[0]) points[winnersData.roundThreeLow[0].user_id].r3  = 1 * multiplier;
   if (winnersData.roundFourLow?.[0])  points[winnersData.roundFourLow[0].user_id].r4   = 1 * multiplier;
-  if (winnersData.topThree)           points[winnersData.topThree.user_id].top3         = 2 * multiplier;
+  if (winnersData.topThree?.length) {
+    const top3Pts = winnersData.topThree.length === 2 ? 1 * multiplier : 2 * multiplier;
+    winnersData.topThree.forEach(p => { points[p.user_id].top3 = top3Pts; });
+  }
   if (winnersData.pickedWinner)       points[winnersData.pickedWinner.user_id].winner   = 2 * multiplier;
 
   for (const [userId, p] of Object.entries(points)) {

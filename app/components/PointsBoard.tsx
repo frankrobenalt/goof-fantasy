@@ -7,7 +7,7 @@ interface PointCardDef {
   points: number;
   type: 'round' | 'top3' | 'tournament';
   roundKey?: keyof LowPickEntry['pick'];
-  data: LowPickEntry[] | PlayerData | (PlayerData & { winner: any }) | null;
+  data: LowPickEntry[] | PlayerData[] | (PlayerData & { winner: any }) | null;
 }
 
 export default function PointsBoard({ winnersData, multiplier = 1 }: { winnersData: WinnersData; multiplier?: number }) {
@@ -52,13 +52,15 @@ function PointCard({ card }: { card: PointCardDef }) {
     }
 
     if (card.type === 'top3') {
-      const winner = card.data as PlayerData;
-      const score = Number(winner.topThree);
+      const winners = card.data as PlayerData[];
+      const isSplit = winners.length === 2;
+      const score = Number(winners[0].topThree);
       return (
         <div className="mt-3 space-y-0.5">
-          <p className="text-white font-semibold text-sm">{winner.name}</p>
+          <p className="text-white font-semibold text-sm">{winners[0].name}</p>
+          {isSplit && <p className="text-white font-semibold text-sm">{winners[1].name}</p>}
           <p className={`font-mono text-sm ${score < 0 ? 'text-green-400' : score > 0 ? 'text-red-400' : 'text-white'}`}>
-            {formatScore(score)}
+            {formatScore(score)}{isSplit && <span className="text-zinc-400 text-xs ml-1">split</span>}
           </p>
         </div>
       );

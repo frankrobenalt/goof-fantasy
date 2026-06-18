@@ -104,7 +104,9 @@ function calcPoints(player: PlayerData, w: WinnersData, multiplier: number): num
   if (w.roundTwoLow?.[0]?.user_id   === player.user_id) pts += 1 * multiplier;
   if (w.roundThreeLow?.[0]?.user_id === player.user_id) pts += 1 * multiplier;
   if (w.roundFourLow?.[0]?.user_id  === player.user_id) pts += 1 * multiplier;
-  if (w.topThree?.user_id           === player.user_id) pts += 2 * multiplier;
+  if (w.topThree?.some(p => p.user_id === player.user_id)) {
+    pts += w.topThree!.length === 2 ? 1 * multiplier : 2 * multiplier;
+  }
   if (w.pickedWinner?.user_id       === player.user_id) pts += 2 * multiplier;
   return pts;
 }
