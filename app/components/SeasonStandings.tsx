@@ -29,6 +29,7 @@ export default function SeasonStandings({ standings }: { standings: SeasonStandi
             <th className="text-left px-4 py-3 font-medium w-8">#</th>
             <th className="text-left px-4 py-3 font-medium">Player</th>
             <th className="px-4 py-3 font-medium text-amber-400">Total</th>
+            <th className="px-4 py-3 font-medium text-green-400">Money</th>
             {allTourneys.map(t => (
               <th key={t} className="px-3 py-3 font-medium text-zinc-500">{tourneyName(t)}</th>
             ))}
@@ -48,6 +49,7 @@ export default function SeasonStandings({ standings }: { standings: SeasonStandi
                   <span className="text-zinc-500 text-xs ml-2">@{standing.username}</span>
                 </td>
                 <td className="px-4 py-3 text-center font-bold text-amber-400">{standing.total_points}</td>
+                <td className="px-4 py-3 text-center font-bold text-green-400">${standing.total_points * 5}</td>
                 {allTourneys.map(t => {
                   const result = standing.results.find(r => r.tournament === t);
                   return (
