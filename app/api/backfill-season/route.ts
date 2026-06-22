@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import { rapidApiRequest, buildPlayerPicksData, buildWinnersData, saveResults } from '../../lib/tournament';
 
 // Tournament IDs that have already completed — add any missing ones here
-const COMPLETED_TOURNEY_IDS = ['003', '004', '005', '009', '014', '033', '011'];
+const COMPLETED_TOURNEY_IDS = ['003', '004', '005', '009', '014', '033', '026', '011'];
 const YEAR = '2026';
 
 export async function GET() {
